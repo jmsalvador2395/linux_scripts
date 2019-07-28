@@ -1,0 +1,5 @@
+#!/bin/bash
+
+timestamp=$(date +"%Y%m%d_%H%M%S")
+
+/usr/bin/rsync -av --delete /home/john/hath/ admin@192.168.0.164:/volume1/hath/ > /home/john/logs/hathlog_$timestamp.txt

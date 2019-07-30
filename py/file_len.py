@@ -33,7 +33,7 @@ def suggest(fname):
 			suggestions.append(temp)
 		'''
 
-	#serach for and remove '(COMIC....)' text
+	#search for and remove '(COMIC....)' text
 	#'....' has numbers in it so i may need to update it if they ever start using more digits
 	if re.search('\(COMIC....\)', temp):
 		temp=fname_no_ext[12:]
@@ -46,20 +46,53 @@ def suggest(fname):
 	#remove substrings beginning and ending with square brackets
 	#except for author names
 	square_brackets=re.findall('\[.*?\]', temp)
-	print(str(len(square_brackets)) +' '+ temp + '\n')
 
 	#if the first character in the file name is '[' then i remove
 	#the first element of square_brackets from the list because 
 	#that particular instance is the author
+	#take author out of temp and use it for later
+	author=''
 	if temp[0] == '[':
-		square_brackets.pop(0)
+		author=square_brackets.pop(0)
+		temp=temp.replace(author, '').strip()
+
 	for i in square_brackets:
 		temp=temp.replace(i, '').strip()
 
+	#see if there's a substring with parentheses at the end and exctract it
+	#usually it contains the original series info but sometimes it's useless bs
+	#2 different operations: append to the different strings if temp gets split from the '   ' substring
+	#or i add the string without the parentheses substring to the suggestions list
+	############ doesn't work if there's a duplicate which has '(1)' added to the end of it
+	############ remove_duplicates function will take care of that
+	parentheses=re.findall('\(.*?\)', temp)
+	paren_substr=None
+	if temp[-1] == ')':
+		paren_substr=parentheses[-1]
+		temp=temp.replace(paren_substr, '').strip()
+
+	#find and replace the substring '   ' and store the new string
+	#if the new string is less than 135 characters then return a  
+	#list with just the new string
 	#TODO
-	print(temp)
-	#print(temp.replace('   ', ' ')
-	print(' '.join(temp.split()))
+	space_index=temp.find('   ')
+	temp_nomultspace=temp  #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< remember this
+	if space_index > -1:
+		temp_nomultspace=temp.replace('   ', ' ')
+		
+	if len(author) + len(temp_nomultspace) + len(parentheses) + 2 > 135:# +2 because of the spaces
+		print('------------------------------')
+		print('space index:\t\t' + str(space_index))
+		print('original:\t\t' + author + ' ' +  temp)
+		if(space_index>-1):
+			print('space trimmed:\t\t' + author + ' ' +  temp_nomultspace)
+			if(paren_substr is not None):
+				print('1st substr:\t\t' + author + ' ' +  temp_nomultspace[:space_index] + ' ' + paren_substr)
+				print('2nd substr:\t\t' + author + ' ' +  temp_nomultspace[space_index+1:] + ' ' + paren_substr)
+			else:
+				print('1st substr:\t\t' + author + ' ' +  temp_nomultspace[:space_index])
+				print('2nd substr:\t\t' + author + ' ' +  temp_nomultspace[space_index+1:])
+		print('------------------------------')
 	print('\n')
 	return suggestions
 

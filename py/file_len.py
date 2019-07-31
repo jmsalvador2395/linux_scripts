@@ -20,26 +20,19 @@ def suggest(fname):
 
 	file_ext=fname[fname.rfind('.'):]
 	fname_no_ext=fname[:fname.rfind('.')]
+
 	#use temp instead of fname to avoid confusion
 	suggestions=[]
 	temp=fname_no_ext
 
-	#search for and remove comiket prefixes
-	#'..' has numbers in it so i may need to update it if they ever start using more digits
-	if re.search('\(C..\) ', fname):
-		temp=fname_no_ext[6:]
-		'''
-		if len(temp)<MAX_FILE_LEN:
-			suggestions.append(temp)
-		'''
-
-	#search for and remove '(COMIC....)' text
-	#'....' has numbers in it so i may need to update it if they ever start using more digits
-	if re.search('\(COMIC....\)', temp):
-		temp=fname_no_ext[12:]
+	#remove substrings enclosed by parentheses at the beginning of the string
+	if temp[0] == '(':
+		prefix_brackets=re.findall('\(.*?\)', temp)
+		temp=temp.replace(prefix_brackets[0], '').strip()
+		print(prefix_brackets[0])
 
 	#remove substrings beginning and ending with curly brackets
-	curly_brackets=re.findall('\{.*\}', temp)
+	curly_brackets=re.findall('\{.*?\}', temp)
 	for i in curly_brackets:
 		temp=temp.replace(i, '').strip()
 	
@@ -66,35 +59,31 @@ def suggest(fname):
 	############ doesn't work if there's a duplicate which has '(1)' added to the end of it
 	############ remove_duplicates function will take care of that
 	parentheses=re.findall('\(.*?\)', temp)
-	paren_substr=None
+	paren_substr=''
 	if temp[-1] == ')':
-		paren_substr=parentheses[-1]
-		temp=temp.replace(paren_substr, '').strip()
+		print('yes')
+		temp=temp.replace(parentheses[-1], '').strip()
+		paren_substr=' ' + parentheses[-1] # prepend ' ' so i don't have to add it in later
 
 	#find and replace the substring '   ' and store the new string
 	#if the new string is less than 135 characters then return a  
 	#list with just the new string
 	#TODO
 	space_index=temp.find('   ')
-	temp_nomultspace=temp  #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< remember this
+
 	if space_index > -1:
-		temp_nomultspace=temp.replace('   ', ' ')
-		
-	if len(author) + len(temp_nomultspace) + len(parentheses) + 2 > 135:# +2 because of the spaces
-		print('------------------------------')
-		print('space index:\t\t' + str(space_index))
-		print('original:\t\t' + author + ' ' +  temp)
+		temp=temp.replace('   ', ' ')
+
+	#create suggestions list to return
+	if len((author + ' ' + temp + paren_substr + file_ext)) < MAX_FILE_LEN:
+		return [(author + ' ' + temp + paren_substr + file_ext)]
+	else:
 		if(space_index>-1):
-			print('space trimmed:\t\t' + author + ' ' +  temp_nomultspace)
-			if(paren_substr is not None):
-				print('1st substr:\t\t' + author + ' ' +  temp_nomultspace[:space_index] + ' ' + paren_substr)
-				print('2nd substr:\t\t' + author + ' ' +  temp_nomultspace[space_index+1:] + ' ' + paren_substr)
-			else:
-				print('1st substr:\t\t' + author + ' ' +  temp_nomultspace[:space_index])
-				print('2nd substr:\t\t' + author + ' ' +  temp_nomultspace[space_index+1:])
-		print('------------------------------')
-	print('\n')
-	return suggestions
+			suggestions.append(author + ' ' + temp[:space_index] + paren_substr + file_ext)
+			suggestions.append(author + ' ' + temp[space_index+1:] + paren_substr + file_ext)
+			return suggestions
+		else:
+			return []
 
 #TODO
 def remove_duplicates(file_list):
@@ -102,31 +91,36 @@ def remove_duplicates(file_list):
 
 if __name__ == '__main__':
 	cwd=os.getcwd()
-	gtr_135=[]
-	lsseq_135=[]
+	gtr_max_len=[]
 	smallest_gtr_35=''
 
-	#create list of files that exceed 135 characters
+	#create list of files that exceed MAX_FILE_LEN
 	for f in listdir(cwd):
 		potential_file=f
 
-		if len(f) > 135:
-			gtr_135.append(f)
+		if len(f) > MAX_FILE_LEN:
+			gtr_max_len.append(f)
 
 			if smallest_gtr_35=='' or len(f)<len(smallest_gtr_35):
 				smallest_gtr_35=f
 	
 	#TODO
 	#delete duplicates from directory
-	remove_duplicates(gtr_135)
+	remove_duplicates(gtr_max_len)
 
 	#TODO
 	#go through each file to rename
-	if len(gtr_135)>0:
-		print(str(len(gtr_135)) + ' files to rename:\n')
-		for i in gtr_135:
+	if len(gtr_max_len)>0:
+		print(str(len(gtr_max_len)) + ' files to rename:\n')
+		for i in gtr_max_len:
 			suggestions=suggest(i)
-			#print(str(i) + '\n')
+			print('----------------------------')
+			print('Suggestions for \'' + i + '\'\n')
+			for j in suggestions:
+				print(len(j))
+				print(j)
+			print('----------------------------')
+			print('\n')
 			
 
 		

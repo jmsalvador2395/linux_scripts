@@ -25,11 +25,15 @@ def suggest(fname):
 	suggestions=[]
 	temp=fname_no_ext
 
+	#remove substrings enclosed by = at the end of the string
+	if temp[-1] == '=':
+		equals=re.findall('=.*?=', temp)
+		temp=temp.replace(equals[-1], '').strip()
+
 	#remove substrings enclosed by parentheses at the beginning of the string
 	if temp[0] == '(':
 		prefix_brackets=re.findall('\(.*?\)', temp)
 		temp=temp.replace(prefix_brackets[0], '').strip()
-		print(prefix_brackets[0])
 
 	#remove substrings beginning and ending with curly brackets
 	curly_brackets=re.findall('\{.*?\}', temp)
@@ -61,7 +65,6 @@ def suggest(fname):
 	parentheses=re.findall('\(.*?\)', temp)
 	paren_substr=''
 	if temp[-1] == ')':
-		print('yes')
 		temp=temp.replace(parentheses[-1], '').strip()
 		paren_substr=' ' + parentheses[-1] # prepend ' ' so i don't have to add it in later
 

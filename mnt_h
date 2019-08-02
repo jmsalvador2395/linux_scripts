@@ -1,0 +1,4 @@
+#!/bin/bash
+
+sudo mount -t cifs //192.168.0.164/h "/media/john/.h" -o iocharset=utf8,username="admin",sec=ntlm,vers=1.0
+

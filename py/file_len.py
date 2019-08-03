@@ -6,16 +6,11 @@ import re
 #constants
 MAX_FILE_LEN=135
 
-'''
---------------------------
-may need to use this later
---------------------------
 
-full path + file -----> join(cwd, f)
 
 '''
-
-#suggest file names for a given string
+suggest file names for a given string
+'''
 def suggest(fname):
 
 	file_ext=fname[fname.rfind('.'):]
@@ -61,7 +56,6 @@ def suggest(fname):
 	parentheses=re.findall('\(.*?\)', temp)
 	paren_substr=''
 	if temp[-1] == ')':
-		print('yes')
 		temp=temp.replace(parentheses[-1], '').strip()
 		paren_substr=' ' + parentheses[-1] # prepend ' ' so i don't have to add it in later
 
@@ -85,9 +79,11 @@ def suggest(fname):
 		else:
 			return []
 
-#removes all duplicate files from the directory. not just files with names > 135 characters
+'''
+removes all duplicate files from the directory. not just files with names > 135 characters
+'''
 def remove_all_duplicates(file_list, cwd):
-
+	print('REMOVING DUPLICATES')
 	for i in file_list:
 		no_duplicates=[]
 		file_ext=i[i.rfind('.'):]
@@ -104,6 +100,7 @@ def remove_all_duplicates(file_list, cwd):
 		else:
 			no_duplicates.append(i)
 
+	print('DUPLICATES REMOVED\n\n')
 	return no_duplicates
 
 if __name__ == '__main__':
@@ -128,24 +125,28 @@ if __name__ == '__main__':
 
 			if smallest_gtr_35=='' or len(f)<len(smallest_gtr_35):
 				smallest_gtr_35=f
-		else:
-			test_list.append(f)
 			
 	
 	#TODO
 	#go through each file to rename
+	#create a list of suggestions and prompt for which file name to take
 	if len(gtr_max_len)>0:
 		print(str(len(gtr_max_len)) + ' files to rename:\n')
 		for i in gtr_max_len:
 			suggestions=suggest(i)
-			'''
-			print('----------------------------')
-			print('Suggestions for \'' + i + '\'\n')
-			for j in suggestions:
-				print(len(j))
-				print(j)
-			print('----------------------------')
+			print('-----------------------------------------------------')
+			if len(suggestions) != 0:
+				print('Suggestions for \'' + i + '\'\n')
+				for j in range(len(suggestions)):
+					print('(' + j + '): ' + suggestions[j])
+
+				choice = input('Enter number for new file name: ')
+				print('you entered: ' + choice)
+			else:
+				print('Unable to automatically reduce file name')
+				new_name = input('Manually enter new name: \n')
+				print(new_name)
+			print('-----------------------------------------------------')
 			print('\n')
-			'''
 
 		

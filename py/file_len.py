@@ -85,17 +85,42 @@ def suggest(fname):
 		else:
 			return []
 
-#TODO
-def remove_duplicates(file_list):
-	return
+#removes all duplicate files from the directory. not just files with names > 135 characters
+def remove_all_duplicates(file_list, cwd):
+
+	for i in file_list:
+		no_duplicates=[]
+		file_ext=i[i.rfind('.'):]
+		fname_no_ext=i[:i.rfind('.')]
+		#see if the file name w/o the extension has a (#) substring
+		#seeing that at the end in my case means it's a file duplicate
+		if fname_no_ext[-1] == ')':
+			parentheses = re.findall('\([0-9]*?\)', fname_no_ext)
+			
+			#checks if file with the same name minus the '(#)' string at the end exists in file_list
+			if (fname_no_ext.replace(parentheses[-1], '').strip() + file_ext) in file_list:
+				os.remove(cwd + '/' + i)
+				print('deleted ' + i)
+		else:
+			no_duplicates.append(i)
+
+	return no_duplicates
 
 if __name__ == '__main__':
+	#get current working directory
 	cwd=os.getcwd()
 	gtr_max_len=[]
 	smallest_gtr_35=''
+	test_list=[]
+
+
+	#delete all duplicates from directory
+	#gtr_max_len=remove_duplicates(gtr_max_len)
+	all_files=listdir(cwd)
+	all_files=remove_all_duplicates(all_files, cwd)
 
 	#create list of files that exceed MAX_FILE_LEN
-	for f in listdir(cwd):
+	for f in all_files:
 		potential_file=f
 
 		if len(f) > MAX_FILE_LEN:
@@ -103,17 +128,17 @@ if __name__ == '__main__':
 
 			if smallest_gtr_35=='' or len(f)<len(smallest_gtr_35):
 				smallest_gtr_35=f
+		else:
+			test_list.append(f)
+			
 	
-	#TODO
-	#delete duplicates from directory
-	remove_duplicates(gtr_max_len)
-
 	#TODO
 	#go through each file to rename
 	if len(gtr_max_len)>0:
 		print(str(len(gtr_max_len)) + ' files to rename:\n')
 		for i in gtr_max_len:
 			suggestions=suggest(i)
+			'''
 			print('----------------------------')
 			print('Suggestions for \'' + i + '\'\n')
 			for j in suggestions:
@@ -121,6 +146,6 @@ if __name__ == '__main__':
 				print(j)
 			print('----------------------------')
 			print('\n')
-			
+			'''
 
 		

@@ -84,8 +84,8 @@ removes all duplicate files from the directory. not just files with names > 135 
 '''
 def remove_all_duplicates(file_list, cwd):
 	print('*************REMOVING DUPLICATES*************\n')
+	no_duplicates=[]
 	for i in file_list:
-		no_duplicates=[]
 		file_ext=i[i.rfind('.'):]
 		fname_no_ext=i[:i.rfind('.')]
 		#see if the file name w/o the extension has a (#) substring
@@ -97,10 +97,13 @@ def remove_all_duplicates(file_list, cwd):
 			if (fname_no_ext.replace(parentheses[-1], '').strip() + file_ext) in file_list:
 				os.remove(cwd + '/' + i)
 				print('deleted: ' + i + '\n\n')
+			else:
+				no_duplicates.append(i)
 		else:
 			no_duplicates.append(i)
 
-	print('*************DUPLICATES REMOVED*************\n\n\n')
+	print('\n*************DUPLICATES REMOVED*************\n\n\n')
+
 	return no_duplicates
 
 if __name__ == '__main__':
@@ -127,12 +130,11 @@ if __name__ == '__main__':
 				smallest_gtr_35=f
 			
 	
-	#TODO
 	#go through each file to rename
 	#create a list of suggestions and prompt for which file name to take
 	if len(gtr_max_len)>0:
 		for i in gtr_max_len:
-			#file_ext=i[i.rfind('.'):] ###### might use this later because i might not use extensions when manually renaming
+			file_ext=i[i.rfind('.'):] ###### might use this later because i might not use extensions when manually renaming
 			print(str(len(gtr_max_len)) + ' file(s) to rename:\n')
 			suggestions=suggest(i)
 
@@ -142,26 +144,34 @@ if __name__ == '__main__':
 				for j in range(len(suggestions)):
 					print('(' + str(j+1) + '): ' + suggestions[j])
 				
-				choice = input('Enter number for new file name (0 to manually rename:\n')
+				choice = input('Enter number for new file name (0 to manually rename:)\n')
 				#TODO code to process the new file names
 				print('you entered: ' + choice)
+
+				#if choice == 0:
+					#code for taking and checking manual rename
 
 			#goes here if [] was returned
 			else:
 				print('Unable to automatically reduce file name')
 				valid_entry=False
-				while !valid_entry
-					valid_entry=True
+				while not valid_entry:
 					new_name = input('Manually enter new name: \n')
 
-					if len(new_name) > MAX_FILE_LEN:
-						print('Name is too long\n')
-						valid_entry=False
-					elif new_name == '':
+					if new_name == '':
 						print('No name provided')
-						valid_entry=False
+					elif not new_name.endswith(file_ext):
+						new_name += file_ext
+						if len(new_name) > MAX_FILE_LEN: 
+							print('Name is too long\n')
+					elif len(new_name) > MAX_FILE_LEN:
+						print('Name is too long\n')
 					else:
+						valid_entry=True
+						#TODO
 						#checks were good so put code to rename file here
+						os.rename(cwd + '/' + i, cwd + '/' + new_name)
+
 
 						
 

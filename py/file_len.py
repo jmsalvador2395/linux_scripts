@@ -96,9 +96,10 @@ def remove_all_duplicates(file_list, cwd):
 		#seeing that at the end in my case means it's a file duplicate
 		if fname_no_ext[-1] == ')':
 			parentheses = re.findall('\([0-9]*?\)', fname_no_ext)
-			
 			#checks if file with the same name minus the '(#)' string at the end exists in file_list
-			if (fname_no_ext.replace(parentheses[-1], '').strip() + file_ext) in file_list:
+			if len(parentheses) == 0:
+				no_duplicates.append(i)
+			elif (fname_no_ext.replace(parentheses[-1], '').strip() + file_ext) in file_list:
 				os.remove(cwd + '/' + i)
 				print('deleted: ' + i + '\n\n')
 			else:
@@ -159,7 +160,7 @@ if __name__ == '__main__':
 					#TODO code to process the new file names
 					#if choice == 0:
 						#code for taking and checking manual rename
-
+					
 					if not choice > len(suggestions) or not choice < 1: #change 1 to 0 when i decide to include manual entry
 						os.rename(cwd + '/' + i, cwd + '/' + suggestions[choice-1].strip())
 						print('\nrenamed to: ' + suggestions[choice-1] + '\n')
@@ -170,7 +171,7 @@ if __name__ == '__main__':
 
 			#goes here if [] was returned
 			else:
-				print('Unable to automatically reduce file name\n')
+				print('Unable to automatically reduce file name:\n' + i)
 				valid_entry=False
 				while not valid_entry:
 					new_name = input('Manually enter new name: \n')

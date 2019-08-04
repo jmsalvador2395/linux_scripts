@@ -6,16 +6,11 @@ import re
 #constants
 MAX_FILE_LEN=135
 
-'''
---------------------------
-may need to use this later
---------------------------
 
-full path + file -----> join(cwd, f)
 
 '''
-
-#suggest file names for a given string
+suggest file names for a given string
+'''
 def suggest(fname):
 
 	file_ext=fname[fname.rfind('.'):]
@@ -88,17 +83,45 @@ def suggest(fname):
 		else:
 			return []
 
-#TODO
-def remove_duplicates(file_list):
-	return
+'''
+removes all duplicate files from the directory. not just files with names > 135 characters
+'''
+def remove_all_duplicates(file_list, cwd):
+	print('*************REMOVING DUPLICATES*************\n')
+	for i in file_list:
+		no_duplicates=[]
+		file_ext=i[i.rfind('.'):]
+		fname_no_ext=i[:i.rfind('.')]
+		#see if the file name w/o the extension has a (#) substring
+		#seeing that at the end in my case means it's a file duplicate
+		if fname_no_ext[-1] == ')':
+			parentheses = re.findall('\([0-9]*?\)', fname_no_ext)
+			
+			#checks if file with the same name minus the '(#)' string at the end exists in file_list
+			if (fname_no_ext.replace(parentheses[-1], '').strip() + file_ext) in file_list:
+				os.remove(cwd + '/' + i)
+				print('deleted: ' + i + '\n\n')
+		else:
+			no_duplicates.append(i)
+
+	print('*************DUPLICATES REMOVED*************\n\n\n')
+	return no_duplicates
 
 if __name__ == '__main__':
+	#get current working directory
 	cwd=os.getcwd()
 	gtr_max_len=[]
 	smallest_gtr_35=''
+	test_list=[]
+
+
+	#delete all duplicates from directory
+	#gtr_max_len=remove_duplicates(gtr_max_len)
+	all_files=listdir(cwd)
+	all_files=remove_all_duplicates(all_files, cwd)
 
 	#create list of files that exceed MAX_FILE_LEN
-	for f in listdir(cwd):
+	for f in all_files:
 		potential_file=f
 
 		if len(f) > MAX_FILE_LEN:
@@ -106,24 +129,46 @@ if __name__ == '__main__':
 
 			if smallest_gtr_35=='' or len(f)<len(smallest_gtr_35):
 				smallest_gtr_35=f
+			
 	
 	#TODO
-	#delete duplicates from directory
-	remove_duplicates(gtr_max_len)
-
-	#TODO
 	#go through each file to rename
+	#create a list of suggestions and prompt for which file name to take
 	if len(gtr_max_len)>0:
-		print(str(len(gtr_max_len)) + ' files to rename:\n')
 		for i in gtr_max_len:
+			#file_ext=i[i.rfind('.'):] ###### might use this later because i might not use extensions when manually renaming
+			print(str(len(gtr_max_len)) + ' file(s) to rename:\n')
 			suggestions=suggest(i)
-			print('----------------------------')
-			print('Suggestions for \'' + i + '\'\n')
-			for j in suggestions:
-				print(len(j))
-				print(j)
-			print('----------------------------')
-			print('\n')
-			
+
+			print('-----------------------------------------------------\n')
+			if len(suggestions) != 0:
+				print('Suggestions to rename:\n\"' + i + '\"\n')
+				for j in range(len(suggestions)):
+					print('(' + str(j+1) + '): ' + suggestions[j])
+				
+				choice = input('Enter number for new file name (0 to manually rename:\n')
+				#TODO code to process the new file names
+				print('you entered: ' + choice)
+
+			#goes here if [] was returned
+			else:
+				print('Unable to automatically reduce file name')
+				valid_entry=False
+				while !valid_entry
+					valid_entry=True
+					new_name = input('Manually enter new name: \n')
+
+					if len(new_name) > MAX_FILE_LEN:
+						print('Name is too long\n')
+						valid_entry=False
+					elif new_name == '':
+						print('No name provided')
+						valid_entry=False
+					else:
+						#checks were good so put code to rename file here
+
+						
+
+			print('-----------------------------------------------------\n\n')
 
 		

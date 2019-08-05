@@ -4,4 +4,4 @@ then
 	rsync -av admin@192.168.0.164:/volume1/h/.p/ /media/john/HDD/.p/
 fi
 
-rsync -av --delete /media/john/HDD/ admin@192.168.0.164:/volume1/h/ > ~/rsync_output.txt
+rsync -av --delete /media/john/HDD/ admin@192.168.0.164:/volume1/h/

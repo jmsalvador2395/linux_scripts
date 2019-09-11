@@ -1,4 +1,0 @@
-#!/bin/bash
-
-python3 ~/bin/py/file_len.py
-

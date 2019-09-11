@@ -94,7 +94,7 @@ def remove_all_duplicates(file_list, cwd):
 		fname_no_ext=i[:i.rfind('.')]
 		#see if the file name w/o the extension has a (#) substring
 		#seeing that at the end in my case means it's a file duplicate
-		if fname_no_ext[-1] == ')':
+		if not fname_no_ext == '' and fname_no_ext[-1] == ')':
 			parentheses = re.findall('\([0-9]*?\)', fname_no_ext)
 			#checks if file with the same name minus the '(#)' string at the end exists in file_list
 			if len(parentheses) == 0:

@@ -1,7 +1,7 @@
 #!/bin/bash
 if [ "$1" = "-p" ]
 then
-	rsync -av admin@192.168.0.164:/volume1/h/.p/ /media/john/HDD/.p/
+	rsync -av admin@192.168.0.164:/volume1/h/.p/ "/run/media/john/WD Black/"
 fi
 
-rsync -av --delete /media/john/HDD/ admin@192.168.0.164:/volume1/h/
+rsync -av --delete "/run/media/john/WD Black/" admin@192.168.0.164:/volume1/h/

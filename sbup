@@ -1,8 +1,8 @@
 #!/bin/bash
 if [ "$1" = "-p" ]
 then
-	rsync -av admin@192.168.0.164:/volume1/h/.p/ "/run/media/john/ssd1/"
+	rsync -av "192.168.0.164:/volume1/h/.p/" "/run/media/john/ssd1/"
 fi
 
-rsync -av "/home/john/.local/share/mcomix/" "/run/media/john/ssd1/.bm"
-rsync -av --delete "/run/media/john/ssd1/" admin@192.168.0.164:/volume1/h/
+rsync -av "/home/john/.local/share/mcomix/" "/run/media/john/ssd1/.bm/"
+rsync -av --delete "/run/media/john/ssd1/" "192.168.0.164:/volume1/h/"

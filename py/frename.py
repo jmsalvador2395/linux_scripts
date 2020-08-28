@@ -156,7 +156,10 @@ if __name__ == '__main__':
 				#print('(0): MANUAL ENTRY\n\n')
 				valid_entry=False
 				while not valid_entry:
-					choice = int(input('Enter number for new file name:\n'))
+					#line below is for manual entry. i never used this so i'm removing it
+					#choice = int(input('Enter number for new file name:\n'))
+					choice = 1
+
 					#TODO code to process the new file names
 					#if choice == 0:
 						#code for taking and checking manual rename

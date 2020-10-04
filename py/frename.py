@@ -131,8 +131,8 @@ if __name__ == '__main__':
 		if len(f) > MAX_FILE_LEN:
 			gtr_max_len.append(f)
 
-			if smallest_gtr_35=='' or len(f)<len(smallest_gtr_35):
-				smallest_gtr_35=f
+		if smallest_gtr_35=='' or len(f)<len(smallest_gtr_35):
+			smallest_gtr_35=f
 			
 	
 	#go through each file to rename
@@ -165,7 +165,8 @@ if __name__ == '__main__':
 						#code for taking and checking manual rename
 					
 					if not choice > len(suggestions) or not choice < 1: #change 1 to 0 when i decide to include manual entry
-						os.rename(cwd + '/' + i, cwd + '/' + suggestions[choice-1].strip())
+						new_fname=cwd+'/' + suggestions[choice-1].strip()
+						os.rename(cwd + '/' + i, new_fname)
 						print('\nrenamed to: ' + suggestions[choice-1] + '\n')
 						valid_entry=True
 					else:

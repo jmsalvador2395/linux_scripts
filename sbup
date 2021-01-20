@@ -4,5 +4,7 @@ then
 	rsync -av "synology:/volume1/h/.p/" "/run/media/john/ssd1/"
 fi
 
-rsync -av --delete "/home/john/.local/share/mcomix/" "/run/media/john/ssd1/.bm/"
-rsync -av --delete "/run/media/john/ssd1/" "10.123.95.171:/volume1/h/"
+rsync -av --delete --update "/home/john/.local/share/mcomix/" "synology:/volume1/h/.bm/"
+rsync -av --delete --update "synology:/volume1/h/.bm/" "/home/john/.local/share/mcomix/"
+
+rsync -av --delete "synology:/volume1/h/" "/run/media/john/ssd1/"

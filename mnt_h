@@ -1,0 +1,3 @@
+#!/bin/bash
+
+sudo mount -t cifs //10.123.95.171/h "/mnt" -o iocharset=utf8,username="admin",sec=ntlm,vers=1.0

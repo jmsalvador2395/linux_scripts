@@ -8,3 +8,4 @@ rsync -av --delete --update "/home/john/.local/share/mcomix/" "synology:/volume1
 rsync -av --delete --update "synology:/volume1/h/.bm/" "/home/john/.local/share/mcomix/"
 
 rsync -av --delete "synology:/volume1/h/" "/run/media/john/ssd1/"
+rsync -av --delete "synology:/volume1/h/" "/media/john/ssd1/"

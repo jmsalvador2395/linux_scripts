@@ -2,4 +2,4 @@
 
 # use the following if you get a mounting error
 # fusermount -u $mountpoint
-sudo sshfs -o allow_other,default_permissions,IdentityFile=/home/john/.ssh/id_ecdsa john@synology:h /mnt
+sudo sshfs -o uid=1000,allow_other,default_permissions,IdentityFile=/home/john/.ssh/id_ecdsa john@synology:h /mnt

@@ -1,4 +1,0 @@
-#!/bin/bash
-
-cd /home/john/minecraft
-java -Xms1024M -Xmx1024M -jar "minecraft_server_1.13.1.jar" nogui

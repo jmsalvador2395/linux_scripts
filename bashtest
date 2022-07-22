@@ -1,8 +1,0 @@
-#!/bin/bash
-
-if [ "$1" = "-p" ]
-then
-	echo "yes"
-fi
-
-echo "$(dirname "$0")"

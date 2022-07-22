@@ -1,0 +1,4 @@
+#!/bin/bash
+
+umount /home/john/mnt/.h
+umount /home/john/mnt/media

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# use the following if you get a mounting error
+# fusermount -u $mountpoint
+sshfs -o uid=1000,allow_other,default_permissions,IdentityFile=/home/john/.ssh/id_ecdsa john@10.123.95.171:h/ /home/john/mnt/.h
+
+sshfs -o uid=1000,allow_other,default_permissions,IdentityFile=/home/john/.ssh/id_ecdsa john@10.123.95.171:media/ /home/john/mnt/media

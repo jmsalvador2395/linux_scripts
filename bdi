@@ -1,1 +1,18 @@
-ssh bdi -J gate -L 6006:bdi:6006
+#!/bin/bash
+
+function main() {
+
+	port_str="-L 6006:bdi:6006 -L 22:bdi:22"
+
+	if [ "$1" == "local" ]
+	then
+		ssh bdi
+	else
+		#ssh bdi -J gate -L 6006:bdi:6006 -L 22:bdi:22
+		ssh bdi -J gate ${port_str}
+	fi
+
+}
+
+main $1
+

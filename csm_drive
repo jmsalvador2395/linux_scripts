@@ -1,7 +1,0 @@
-#!/bin/bash
-
-function main() {
-	sudo mount.cifs //auo12.auburn.edu/csm2 /home/john/mnt/csm -o user=zcsmjms
-}
-
-main

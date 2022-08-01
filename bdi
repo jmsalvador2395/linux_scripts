@@ -11,6 +11,7 @@ function main() {
 	
 	#conect
 	ssh bdi $args
+	#sshfs -o uid=1011,allow_other,default_permissions,IdentityFile=/home/john/.ssh/id_ecdsa john@localhost:6000/ /home/john/mnt/bdi
 
 }
 

@@ -1,4 +1,14 @@
 #!/bin/bash
 
-umount /home/john/mnt/.h
-umount /home/john/mnt/media
+function main() {
+	if [ "$1" == "" ]; then
+		umount /home/john/mnt/.h
+		umount /home/john/mnt/media
+	elif [ "$1" == "bdi" ]; then
+		umount /home/john/mnt/bdi
+	elif [ "$1" == "csm" ]; then
+		umount /home/john/mnt/csm
+	fi
+}
+
+main $1

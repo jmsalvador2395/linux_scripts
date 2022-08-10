@@ -10,7 +10,7 @@ function main(){
 	elif [ "$1" == "bdi" ]; then
 		sshfs -o port=6000,uid=1011,allow_other,IdentityFile=/home/john/.ssh/id_ecdsa2 john@localhost:/data/john/ /home/john/mnt/bdi
 	elif [ "$1" == "csm" ]; then
-		sudo mount.cifs //auo12.auburn.edu/csm2 /home/john/mnt/csm -o user=zcsmjms
+		sudo mount.cifs //auo12.auburn.edu/csm2 /home/john/mnt/csm -o user=zcsmjms,noauto,user 0 0
 	fi
 }
 

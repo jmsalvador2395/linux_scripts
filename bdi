@@ -3,7 +3,7 @@
 function main() {
 
 	#process arguements
-	args="-L 6006:bdi:6006 -L 6007:bdi:6007 -L 6000:bdi:22"
+	args="-L 6006:bdi:6006 -L 6007:bdi:6007 -L 6000:bdi:22 -L 6008:bdi:8888"
 	if [ "$1" != "local" ]
 	then
 		args="-J gate ${args}"

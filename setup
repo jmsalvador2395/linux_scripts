@@ -1,0 +1,25 @@
+#!/bin/bash
+
+function pull_git_repos() {
+	config_dir="configs"
+	cd
+	mkdir ${config_dir}
+	cd ${config_dir}
+
+	repos=("linux_vimrc")
+
+	for i in "${repos[@]}"; do
+		mkdir $i
+		cd $i
+		git init
+		git pull git@github.com:jmsalvador2395/${i}.git
+		echo "finished pulling git repository"
+		cd ..
+	done
+}
+
+function main() {
+	pull_git_repos
+}
+
+main $@

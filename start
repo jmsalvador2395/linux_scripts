@@ -1,10 +1,9 @@
 #!/bin/bash
 
-#not working but i'll save it for now
 function main() {
 	cd $0
 	if [ "$1" == "jupyter" ]; then
-		jupyter-notebook -ip=0.0.0.0
+		jupyter-notebook --ip=0.0.0.0 --no-browser
 	fi
 }
 

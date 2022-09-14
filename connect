@@ -10,7 +10,7 @@ function main() {
 	fi
 
 	#process arguements
-	args="-L 6006:${host}:6006 -L 6007:${host}:6007 -L 6000:${host}:22 -L 6008:${host}:6008 -L 8888:${host}:8888"
+	args="-L 6006:${host}:6006 -L 6007:${host}:6007 -L 6000:${host}:22 -L 6008:${host}:6008 -L 6009:${host}:8888 -L 6009:${host}:8889"
 	if [ "$2" != "local" ]
 	then
 		args="-J gate ${args}"

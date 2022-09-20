@@ -85,6 +85,7 @@ function main() {
 		steam \
 		spotify-client \
 		mpv \
+		dropbox \
 		-y
 			
 	#rm -Rf .tmp

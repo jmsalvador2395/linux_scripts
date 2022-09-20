@@ -18,8 +18,60 @@ function pull_git_repos() {
 	done
 }
 
+function create_directories() {
+	base_dir=${HOME}/mnt/
+	create_dir ${base_dir}/media
+	create_dir ${base_dir}/h
+	create_dir ${base_dir}/bdi
+}
+
 function main() {
+	working_dir=$(pwd)
 	pull_git_repos
+	create_directories
+	cd ${working_dir}
+
+	#create temporary download directory
+	mkdir .tmp
+	cd .tmp
+
+	sudo apt update && sudo apt upgrade -y
+
+	#install brave browser (for mint)
+	sudo apt install apt-transport-https curl
+	sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+	echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+	sudo apt update
+	sudo apt install brave-browser -y
+
+	#install anaconda
+	sudo apt install \
+		libgl1-mesa-glx \
+		libegl1-mesa \
+		libxrandr2 \
+		libxrandr2 \
+		libxss1 \
+		libxcursor1 \
+		libxcomposite1 \
+		libasound2 \
+		libxi6 \
+		libxtst6 \
+		-y
+	
+	#may have to change this later
+	wget https://repo.anaconda.com/archive/Anaconda3-2022.05-Linux-x86_64.sh
+
+	sh *.sh -b -p ${HOME}/anaconda3
+	#rm *.sh
+	cd ${working_dir}
+
+	#general installs
+	sudo apt install \
+		tmux \
+		sshfs \
+		-y
+			
+	#rm -Rf .tmp
 }
 
 main $@

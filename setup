@@ -77,6 +77,11 @@ function main() {
 	sudo apt update && sudo apt install signal-desktop -y
 
 
+	#install snap and onenote
+	sudo rm /etc/apt/preferences.d/nosnap.pref
+	sudo apt update && sudo apt install snapd
+	sudo snap install p3x-onenote
+
 	#general installs
 	sudo apt install \
 		tmux \
@@ -86,8 +91,12 @@ function main() {
 		spotify-client \
 		mpv \
 		dropbox \
+		htop \
+		deluge \
+		tree \
 		-y
 			
+	
 	#rm -Rf .tmp
 }
 

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+function main() {
+	datetime=$(date '+%Y-%M-%d-%H:%M:%S');
+	echo "$datetime"
+}
+
+main $@

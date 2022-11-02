@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function main() {
-	datetime=$(date '+%Y-%M-%d-%H:%M:%S');
+	datetime=$(date '+%Y-%M-%d_%H:%M:%S');
 	echo "$datetime"
 }
 

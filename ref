@@ -1,0 +1,15 @@
+#!/bin/bash
+
+function main() {
+	if [ "$1" == "" ]; then
+		directories=($(ls -d */))
+	else
+		directories=($ls -d *${1}*/)
+	fi
+
+	for dir in ${directories[@]}; do
+		echo $dir
+	done
+}
+
+main $@

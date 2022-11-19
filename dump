@@ -1,0 +1,41 @@
+#!/bin/bash
+
+function envs() {
+	
+	# define base directory
+	base_path=~/envs/
+	
+	# create diretory if it doesn't exist
+	mkdir -p ${base_path}
+
+	# get list of environments
+	envs=$(conda env list | awk '{ print $1 }')
+
+	for env in $envs; do
+		# ignore pound sign
+		if [ "$env" != "#" ]; then
+
+			# create full path
+			full_path=${base_path}${env}.yml
+
+			echo "exporting ${env} to ${full_path} ..."
+
+			# export
+			conda env export > ${full_path}
+
+			echo "done"
+			echo ""
+		fi
+	done
+
+	echo "finished exporting conda environments"
+}
+
+function main() {
+	if [ "$1" == "envs" ]; then
+		envs
+	fi
+}
+
+
+main $@

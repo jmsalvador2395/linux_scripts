@@ -1,0 +1,8 @@
+#!/bin/bash
+
+function main() {
+	dt=$(date '+%Y-%M-%d');
+	echo "$dt"
+}
+
+main $@

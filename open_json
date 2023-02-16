@@ -1,0 +1,29 @@
+#!/usr/bin/env python
+
+import json
+import argparse
+import os
+
+def parse():
+	parser = argparse.ArgumentParser()
+	parser.add_argument(
+		'fname',
+		help='the json file that you want to load'
+	)
+
+	return vars(parser.parse_args())
+
+
+if __name__ == '__main__':
+	
+	# parse args
+	args = parse()
+
+	# set target file path
+	target = f'{os.getcwd()}/{args["fname"]}'
+
+	with open(target, 'r') as f:
+		content = json.loads(f.read())
+	
+	print(f'\ncontent of {target}:')
+	print(json.dumps(content, indent=4))

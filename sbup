@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rsync -av --delete --update "/home/john/.local/share/mcomix/" "10.123.95.201:/mnt/pool1/h/.bm/"
+rsync -av --delete --update "/home/john/.local/share/mcomix/" "truenas:/mnt/pool1/h/.bm/"
 
 #rsync -av --delete "10.123.95.171:/volume1/h/" "/run/media/john/ssd1/"
 #rsync -av --delete "10.123.95.171:/volume1/h/" "/media/john/ssd1/"

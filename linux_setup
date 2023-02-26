@@ -72,10 +72,24 @@ function install_signal() {
 
 }
 
+function install_spotify() {
+
+	curl -sS https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
+	echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+	sudo apt update && sudo apt install spotify-client
+
+}
+
+install_appimages() {
+	desktop_dir=$(pwd)/desktop_entires
+	cp ${desktop_dir}/* ~/.local/share/applications/
+}
+
 function main() {
 	cd $HOME
 
 	pull_git_repos
+	install_appimages
 	create_directories
 
 	#create temporary download directory
@@ -98,7 +112,6 @@ function main() {
 		sshfs \
 		mcomix \
 		steam \
-		spotify-client \
 		mpv \
 		dropbox \
 		htop \

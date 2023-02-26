@@ -1,0 +1,8 @@
+#!/bin/bash
+
+function main() {
+	git config --global user.email jmsalvador2395@gmail.com
+	git config --global user.name john
+}
+
+main

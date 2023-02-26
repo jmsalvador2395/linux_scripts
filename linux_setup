@@ -104,6 +104,7 @@ function main() {
 		htop \
 		deluge \
 		tree \
+		python-is-python3 \
 		-y
 			
 	

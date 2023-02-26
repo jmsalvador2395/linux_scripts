@@ -3,16 +3,14 @@
 source helper_functions
 
 function pull_git_repos() {
-	config_dir="configs"
-	cd
-	mkdir ${config_dir}
-	cd ${config_dir}
-
-	repos=("linux_vimrc")
+	repos=(
+		"linux_scripts"
+		"confs"
+	)
 
 	for i in "${repos[@]}"; do
-		mkdir $i
-		cd $i
+		mkdir -p ~/repos/$i
+		cd ~/repos/$i
 		git init
 		git pull git@github.com:jmsalvador2395/${i}.git
 		echo "finished pulling git repository"
@@ -22,29 +20,12 @@ function pull_git_repos() {
 
 function create_directories() {
 	base_dir=${HOME}/mnt/
-	create_dir ${base_dir}/media
-	create_dir ${base_dir}/.h
-	create_dir ${base_dir}/bdi
+	mkdir -p ${base_dir}/media
+	mkdir -p ${base_dir}/.h
+	mkdir -p ${base_dir}/bdi
 }
 
-function main() {
-	working_dir=$(pwd)
-	pull_git_repos
-	create_directories
-	cd ${working_dir}
-
-	#create temporary download directory
-	mkdir .tmp
-	cd .tmp
-
-	sudo apt update && sudo apt upgrade -y
-
-	#install brave browser (for mint)
-	sudo apt install apt-transport-https curl
-	sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-	echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-	sudo apt update
-	sudo apt install brave-browser -y
+function install_conda() {
 
 	#install anaconda
 	sudo apt install \
@@ -65,7 +46,20 @@ function main() {
 
 	sh *.sh -b -p ${HOME}/anaconda3
 	#rm *.sh
-	cd ${working_dir}
+}
+
+function install_brave() {
+
+	#install brave browser (for mint)
+	sudo apt install apt-transport-https curl
+	sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+	echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+	sudo apt update
+	sudo apt install brave-browser -y
+
+}
+
+function install_signal() {
 
 	#install signal
 	wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg
@@ -76,11 +70,27 @@ function main() {
 	
 	sudo apt update && sudo apt install signal-desktop -y
 
+}
 
-	#install snap and onenote
-	sudo rm /etc/apt/preferences.d/nosnap.pref
-	sudo apt update && sudo apt install snapd
-	sudo snap install p3x-onenote
+function main() {
+	cd $HOME
+
+	pull_git_repos
+	create_directories
+
+	#create temporary download directory
+	mkdir .tmp
+	cd .tmp
+
+	sudo apt update && sudo apt upgrade -y
+
+	# external installs
+	install_brave
+	#install_conda
+	install_signal
+
+	cd $HOME
+	
 
 	#general installs
 	sudo apt install \
@@ -97,7 +107,7 @@ function main() {
 		-y
 			
 	
-	#rm -Rf .tmp
+	rm -Rf .tmp
 }
 
 main $@

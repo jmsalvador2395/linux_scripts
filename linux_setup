@@ -85,43 +85,57 @@ install_appimages() {
 	cp ${desktop_dir}/* ~/.local/share/applications/
 }
 
+
 function main() {
 	cd $HOME
 
+	sudo apt update && sudo apt upgrade -y
+
+	# git setup
+	git config --global user.email jmsalvador2395@gmail.com
+	git config --global user.name john
+
+	# directory setup
 	pull_git_repos
 	install_appimages
 	create_directories
-
-	#create temporary download directory
-	mkdir .tmp
-	cd .tmp
-
-	sudo apt update && sudo apt upgrade -y
-
-	# external installs
-	install_brave
-	#install_conda
-	install_signal
-
-	cd $HOME
-	
 
 	#general installs
 	sudo apt install \
 		tmux \
 		sshfs \
-		mcomix \
-		steam \
-		mpv \
-		dropbox \
 		htop \
-		deluge \
 		tree \
 		python-is-python3 \
 		-y
-			
-	
-	rm -Rf .tmp
+
+
+	# only install this stuff for desktops
+	if $1 == '-a'; then
+
+		#create temporary download directory
+		mkdir .tmp
+		cd .tmp
+
+		# external installs
+		install_brave
+		#install_conda
+		install_signal
+
+		cd $HOME
+
+		#general installs
+		sudo apt install \
+			mcomix \
+			steam \
+			mpv \
+			dropbox \
+			deluge \
+			-y
+				
+		
+		rm -Rf .tmp
+	fi
 }
 
 main $@

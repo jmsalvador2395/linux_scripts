@@ -4,7 +4,7 @@ function main() {
 	if [ "$1" == "jupyter" ]; then
 		jupyter-notebook --ip=0.0.0.0 --no-browser
 	elif [ "$1" == "tensorboard" ]; then
-		tensorboard --logdir="$2" --bind_all --load_fast=false
+		tensorboard --logdir="$2" --bind_all --load_fast=false --reload_multifile=true
 	fi
 }
 

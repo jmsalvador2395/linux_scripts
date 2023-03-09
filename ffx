@@ -1,0 +1,9 @@
+#!/bin/bash
+
+function main() {
+	env MOZ_USE_XINPUT2=1 firefox &
+	disown -a
+}
+
+
+main

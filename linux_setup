@@ -1,0 +1,141 @@
+#!/bin/bash
+
+source helper_functions
+
+function pull_git_repos() {
+	repos=(
+		"linux_scripts"
+		"confs"
+	)
+
+	for i in "${repos[@]}"; do
+		mkdir -p ~/repos/$i
+		cd ~/repos/$i
+		git init
+		git pull git@github.com:jmsalvador2395/${i}.git
+		echo "finished pulling git repository"
+		cd ..
+	done
+}
+
+function create_directories() {
+	base_dir=${HOME}/mnt/
+	mkdir -p ${base_dir}/media
+	mkdir -p ${base_dir}/.h
+	mkdir -p ${base_dir}/bdi
+}
+
+function install_conda() {
+
+	#install anaconda
+	sudo apt install \
+		libgl1-mesa-glx \
+		libegl1-mesa \
+		libxrandr2 \
+		libxrandr2 \
+		libxss1 \
+		libxcursor1 \
+		libxcomposite1 \
+		libasound2 \
+		libxi6 \
+		libxtst6 \
+		-y
+	
+	#may have to change this later
+	wget https://repo.anaconda.com/archive/Anaconda3-2022.05-Linux-x86_64.sh
+
+	sh *.sh -b -p ${HOME}/anaconda3
+	#rm *.sh
+}
+
+function install_brave() {
+
+	#install brave browser (for mint)
+	sudo apt install apt-transport-https curl
+	sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+	echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+	sudo apt update
+	sudo apt install brave-browser -y
+
+}
+
+function install_signal() {
+
+	#install signal
+	wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg
+	cat signal-desktop-keyring.gpg | sudo tee -a /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
+
+	echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main' | \
+		sudo tee -a /etc/apt/sources.list.d/signal-xenial.list
+	
+	sudo apt update && sudo apt install signal-desktop -y
+
+}
+
+function install_spotify() {
+
+	curl -sS https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
+	echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+	sudo apt update && sudo apt install spotify-client
+
+}
+
+install_appimages() {
+	desktop_dir=$(pwd)/desktop_entires
+	cp ${desktop_dir}/* ~/.local/share/applications/
+}
+
+
+function main() {
+	cd $HOME
+
+	sudo apt update && sudo apt upgrade -y
+
+	# git setup
+	git config --global user.email jmsalvador2395@gmail.com
+	git config --global user.name john
+
+	# directory setup
+	pull_git_repos
+	install_appimages
+	create_directories
+
+	#general installs
+	sudo apt install \
+		tmux \
+		sshfs \
+		htop \
+		tree \
+		python-is-python3 \
+		-y
+
+
+	# only install this stuff for desktops
+	if $1 == '-a'; then
+
+		#create temporary download directory
+		mkdir .tmp
+		cd .tmp
+
+		# external installs
+		install_brave
+		#install_conda
+		install_signal
+
+		cd $HOME
+
+		#general installs
+		sudo apt install \
+			mcomix \
+			steam \
+			mpv \
+			dropbox \
+			deluge \
+			-y
+				
+		
+		rm -Rf .tmp
+	fi
+}
+
+main $@

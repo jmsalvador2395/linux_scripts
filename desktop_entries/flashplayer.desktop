@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Flash Player
+Exec=/home/john/bin/flashplayer
+Terminal=false
+Type=Application
+Icon=/home/john/bin/icons/flashplayer.png
+Categories=Sound & Video;
+Keywords=flash;flashplayer;

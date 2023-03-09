@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Bitwarden
+Exec=/home/john/bin/bitwarden
+Terminal=false
+Type=Application
+Icon=/home/john/bin/icons/bitwarden.png
+Categories=Office
+Keywords=bitwarden;

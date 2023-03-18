@@ -1,0 +1,24 @@
+#!/usr/bin/env python
+
+import re
+import os
+
+	
+def fix_filenames():
+	pattern = r'^\(C[0-9]+\)|^\(COMIC.+\)'
+
+	cwd = os.getcwd()
+	files = os.listdir(cwd)
+	matches = []
+	for fname in files:
+		if re.match(pattern, fname):
+			matches.append(fname)
+
+	for fname in matches:
+		new_name = re.sub(pattern, '', fname).strip()
+		os.rename(f'{cwd}/{fname}', f'{cwd}/{new_name}')
+		print(f'renamed: {fname}\nto: {new_name}\n')
+	print(f'renamed {len(matches)} files')
+
+if __name__ == '__main__':
+	fix_filenames()

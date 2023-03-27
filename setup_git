@@ -3,6 +3,7 @@
 function main() {
 	git config --global user.email jmsalvador2395@gmail.com
 	git config --global user.name john
+	git config --global core.editor vim
 }
 
 main $@

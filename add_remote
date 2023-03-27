@@ -1,6 +1,7 @@
 #!/bin/bash
 
 function main() {
+	git init
 	git remote add ${1} git@github.com:jmsalvador2395/${1}.git
 	git pull ${1} master
 }

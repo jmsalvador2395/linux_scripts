@@ -1,0 +1,36 @@
+#!/usr/bin/env python
+
+import os
+import requests
+
+def get_url(name):
+	chase_urls = {
+		'ping' : 'https://apidemo.chase.com/mock/jpmc/servicing/inquiry-maintenance/fdx/v4/ping'
+	}
+	if name not in chase_urls:
+		raise KeyError(f'{name} not in chase_urls')
+	
+	return chase_urls[name]
+
+
+def check_alive(key):
+	
+	response = requests.post(
+		get_url('ping'),
+		json={
+			'Content-Type' : 'application/ping',
+		}
+	)
+	breakpoint()
+
+def main():
+	key = os.getenv('CHASE_API_TOKEN')
+	if not key:
+		raise Exception('API token not set')
+	check_alive(key)
+	breakpoint()
+
+
+if __name__ == '__main__':
+	main()
+

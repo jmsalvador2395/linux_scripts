@@ -11,10 +11,11 @@ from tqdm import tqdm
 def parse_args():
 	parser = argparse.ArgumentParser()
 	parser.add_argument(
-		'-c',
-		'--commit',
+		'-r',
+		'--remove',
 		default = False,
 		action = 'store_true',
+		help = 'removes invalid bookmarks'
 	)
 	return vars(parser.parse_args())
 	
@@ -26,6 +27,9 @@ def cbm():
 	bm_path = f'{HOME}/.local/share/mcomix/bookmarks.json'
 	with open(bm_path, 'r') as f:
 		bm = json.loads(f.read())
+	
+	filter_fn = lambda x: directory.file_exists(x[1])
+
 
 	broken_files = []
 	for i, sample in tqdm(enumerate(bm[1]), total=len(bm[1]), desc='Checking for invalid bookmarks'):
@@ -36,9 +40,17 @@ def cbm():
 	print('\n' + messages.with_fill(length=len(msg)))
 	print(msg)
 	print(messages.with_fill(length=len(msg)), end='\n\n')
-	names = [sample[0] for sample in broken_files]
-	print('\n'.join(names).strip('\n'))
-	print('\n' + messages.with_fill(length=len(msg)))
+	if len(broken_files) != 0:
+		names = [sample[0] for sample in broken_files]
+		print('\n'.join(names).strip('\n'))
+		print('\n' + messages.with_fill(length=len(msg)))
+	
+	if args['remove']:
+		new_bm = [
+			bm[0],
+			list(filter(filter_fn, bm[1]))
+		]
+		breakpoint()
 
 if __name__ == '__main__':
 	cbm()

@@ -1,0 +1,44 @@
+#!/usr/bin/env python
+
+import re
+import os
+import json
+import copy
+from utils import directory, messages
+import argparse
+from tqdm import tqdm
+
+def parse_args():
+	parser = argparse.ArgumentParser()
+	parser.add_argument(
+		'-c',
+		'--commit',
+		default = False,
+		action = 'store_true',
+	)
+	return vars(parser.parse_args())
+	
+def cbm():
+	args = parse_args()
+	
+	# read in bookmarks
+	HOME = os.environ['HOME']
+	bm_path = f'{HOME}/.local/share/mcomix/bookmarks.json'
+	with open(bm_path, 'r') as f:
+		bm = json.loads(f.read())
+
+	broken_files = []
+	for i, sample in tqdm(enumerate(bm[1]), total=len(bm[1]), desc='Checking for invalid bookmarks'):
+		if not directory.file_exists(sample[1]):
+			broken_files.append(sample)
+	
+	msg = f'{len(broken_files)} invalid files found:'
+	print('\n' + messages.with_fill(length=len(msg)))
+	print(msg)
+	print(messages.with_fill(length=len(msg)), end='\n\n')
+	names = [sample[0] for sample in broken_files]
+	print('\n'.join(names).strip('\n'))
+	print('\n' + messages.with_fill(length=len(msg)))
+
+if __name__ == '__main__':
+	cbm()

@@ -2,10 +2,9 @@
 
 import re
 import os
-
 	
 def fix_filenames():
-	pattern = r'^\(C[0-9]+\)|^\(COMIC.+\)'
+	pattern = r'^\(C[0-9]+\)|^\(COMIC....\)'
 
 	cwd = os.getcwd()
 	files = os.listdir(cwd)

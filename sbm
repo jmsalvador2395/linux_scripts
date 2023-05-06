@@ -1,0 +1,39 @@
+#!/usr/bin/env python
+
+import json
+import os
+import argparse
+
+def parse_args():
+	parser = argparse.ArgumentParser()
+	parser.add_argument(
+		'-c',
+		'--commit',
+		default = False,
+		action = 'store_true',
+	)
+	return vars(parser.parse_args())
+
+if __name__ == '__main__':
+
+	args = parse_args()
+
+	HOME = os.environ['HOME']
+	bm_path = f'{HOME}/.local/share/mcomix/bookmarks.json'
+
+	#read in original json
+	with open(bm_path) as f:
+		bm = json.loads(f.read())
+
+	#save backup
+	with open(bm_path + '.bak', 'w') as f:
+		f.write(json.dumps(bm))
+
+	#sort and rewite back to orignal file
+	bm[1].sort(reverse=True)
+	if args['commit']:
+		print('Changes committed')
+		with open(bm_path, 'w') as f:
+			f.write(json.dumps(bm))
+	else:
+		print('Changes not committed. Run with -c to commit.')

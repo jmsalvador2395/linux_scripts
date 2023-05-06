@@ -4,7 +4,6 @@ source helper_functions
 
 function pull_git_repos() {
 	repos=(
-		"linux_scripts"
 		"confs"
 	)
 
@@ -81,8 +80,7 @@ function install_spotify() {
 }
 
 install_appimages() {
-	desktop_dir=$(pwd)/desktop_entires
-	cp ${desktop_dir}/* ~/.local/share/applications/
+	cp ~/bin/desktop_entries/* ~/.local/share/applications/
 }
 
 
@@ -111,7 +109,7 @@ function main() {
 
 
 	# only install this stuff for desktops
-	if $1 == '-a'; then
+	if [ "$1" == "-a" ]; then
 
 		#create temporary download directory
 		mkdir .tmp

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+function pk() {
+    if [ "$1" == "jupyter" ]; then
+        killall jupyter-noteboo
+    fi
+}
+
+pk $@

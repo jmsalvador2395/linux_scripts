@@ -1,3 +1,7 @@
 #!/bin/bash 
 
- for i in */; do zip -r "${i%/}.zip" "$i"; done
+function zip_all() {
+	 for i in */; do zip -r "${i%/}.zip" "$i"; done
+}
+
+zip_all

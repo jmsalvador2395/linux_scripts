@@ -4,11 +4,10 @@
 # fusermount -u $mountpoint
 function main(){
 	if [ "$1" == "" ]; then
-		# sshfs -o uid=1000,allow_other,default_permissions,IdentityFile=/home/john/.ssh/id_ecdsa john@10.123.95.171:h/ /home/john/mnt/.h
-		sshfs -o uid=1000,allow_other,default_permissions,IdentityFile=/home/john/.ssh/id_ecdsa john@10.123.95.200:/mnt/pool1/h/ /home/john/mnt/.h
-		sshfs -o uid=1000,allow_other,default_permissions,IdentityFile=/home/john/.ssh/id_ecdsa john@10.123.95.171:media/ /home/john/mnt/media
+		sshfs -o uid=1000,default_permissions,IdentityFile=/home/john/.ssh/id_ecdsa john@10.123.95.200:/mnt/pool1/h/ /home/john/mnt/.h
+		sshfs -o uid=1000,default_permissions,IdentityFile=/home/john/.ssh/id_ecdsa john@10.123.95.171:media/ /home/john/mnt/media
 	elif [ "$1" == "bdi" ]; then
-		sshfs -o port=6000,uid=1011,allow_other,IdentityFile=/home/john/.ssh/id_ecdsa2 john@localhost:/data/john/ /home/john/mnt/bdi
+		sshfs -o port=6000,uid=1011,IdentityFile=/home/john/.ssh/id_ecdsa2 john@localhost:/data/john/ /home/john/mnt/bdi
 	else
 		echo "invalid host"
 	fi

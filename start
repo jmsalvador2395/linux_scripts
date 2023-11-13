@@ -2,10 +2,12 @@
 
 function main() {
 	if [ "$1" == "jupyter" ]; then
-		jupyter-notebook --ip=0.0.0.0 --no-browser &
+		jupyter lab --ip=0.0.0.0 --no-browser &
 	elif [ "$1" == "tensorboard" ]; then
         if [ "$3" == "" ]; then
             port=6006
+            echo "using port 6006"
+            echo "$3"
         else
             port="$3"
         fi

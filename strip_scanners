@@ -12,7 +12,10 @@ def strip_scanners(args):
 	for fname in files:
 		new_name = re.sub(pattern, '', fname).strip()
 		tokens = new_name.split()
-		tokens[1] = f'{int(tokens[1]):0{args["vol_zeros"]}d}'
+		if 'Vol.' in tokens:
+			tokens[1] = f'{int(tokens[1]):0{args["vol_zeros"]}d}'
+		else:
+			continue
 		tail = tokens.pop(-1)
 		num, ext = tail[:-4], tail[-4:]
 		try:

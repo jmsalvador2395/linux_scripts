@@ -1,3 +1,7 @@
 #!/bin/bash
 
-nvidia-settings --assign CurrentMetaMode="DP-2: 1920x1080_144 +3440+0, HDMI-0: 3440x1440_100 +0+0, DP-5: 1920x1080_60 +3440+0"
+# Current settings
+nvidia-settings --assign CurrentMetaMode="DP-2: 2560x1440_165 +1920+0 { ForceFullCompositionPipeline = On }, HDMI-0: 1920x1080_60 +0+0, DP-0: 1920x1080_144 +4480+0 {Rotation=270}"
+
+# Old settings
+#nvidia-settings --assign CurrentMetaMode="DP-2: 1920x1080_144 +3440+0, HDMI-0: 3440x1440_100 +0+0, DP-5: 1920x1080_60 +3440+0"

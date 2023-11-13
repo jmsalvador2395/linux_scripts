@@ -6,8 +6,8 @@ function main() {
 		umount /home/john/mnt/media
 	elif [ "$1" == "bdi" ]; then
 		umount /home/john/mnt/bdi
-	elif [ "$1" == "csm" ]; then
-		umount /home/john/mnt/csm
+	elif [ "$1" == "nlp" ]; then
+		umount /home/john/mnt/nlp
 	fi
 }
 

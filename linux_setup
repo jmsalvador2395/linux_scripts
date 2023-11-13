@@ -88,6 +88,7 @@ function main() {
 	cd $HOME
 
 	sudo apt update && sudo apt upgrade -y
+	sudo apt dist-upgrade
 
 	# git setup
 	git config --global user.email jmsalvador2395@gmail.com
@@ -134,6 +135,10 @@ function main() {
 		
 		rm -Rf .tmp
 	fi
+
+	# one last update just in case
+	sudo apt update && sudo apt upgrade -y
+	sudo apt dist-upgrade
 }
 
 main $@

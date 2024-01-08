@@ -2,12 +2,14 @@
 
 function main() {
 	if [ "$1" == "" ]; then
-		umount /home/john/mnt/.h
-		umount /home/john/mnt/media
+		umount ${HOME}/mnt/.h
+		umount ${HOME}/mnt/media
 	elif [ "$1" == "bdi" ]; then
-		umount /home/john/mnt/bdi
+		umount ${HOME}/mnt/bdi
 	elif [ "$1" == "nlp" ]; then
-		umount /home/john/mnt/nlp
+		umount ${HOME}/mnt/nlp
+	elif [ "$1" == "gpu2" ]; then
+		umount ${HOME}/mnt/gpu2
 	fi
 }
 

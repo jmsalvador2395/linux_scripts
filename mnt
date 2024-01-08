@@ -10,6 +10,8 @@ function main(){
 	# mount bdi and nlp servers
 	elif [ "$1" == "bdi" ] || [ "$1" == "nlp" ]; then
 		sshfs -o uid=1000,default_permissions,IdentityFile=${HOME}/.ssh/id_ecdsa2 ${1}:/data/john/ ${HOME}/mnt/${1}
+    elif [ "$1" == "gpu2" ]; then
+		sshfs -o uid=1000,default_permissions,IdentityFile=${HOME}/.ssh/id_ecdsa2 ${1}: ${HOME}/mnt/${1}
 	else
 		echo "invalid host"
 	fi

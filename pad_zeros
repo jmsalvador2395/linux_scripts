@@ -1,0 +1,63 @@
+#!/usr/bin/env python
+
+import os
+import argparse
+
+def main(args):
+    
+    # get foldersin cwd
+    folders = os.listdir()
+    folders = sorted(list(filter(lambda x: os.path.isdir(x), folders)))
+
+    for folder in folders:
+        # pad numeric tokens with zeros
+        tokens = folder.split()
+        for i in range(len(tokens)):
+            if tokens[i].isnumeric():
+                tokens[i] = f'{int(tokens[i]):0{args.zeros}d}'
+            elif is_float(tokens[i]):
+                tokens[i] = f'{float(tokens[i]):0{args.zeros+2}.1f}'
+
+        # rename folder
+        new_folder = ' '.join(tokens)
+        if args.commit:
+            os.rename(folder, new_folder)
+        else:
+            print(f'{folder} -> {new_folder}')
+
+    print('done')
+
+def is_number(candidate):
+    try:
+        float(candidate)
+        return True
+    except:
+        return False
+
+def is_float(candidate):
+    
+    # first check if it is an int
+    try:
+        int(candidate)
+        return False
+    except:
+        pass
+
+    return is_number(candidate)
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        'zeros',
+        type=int,
+        choices=[1, 2, 3, 4],
+    )
+    parser.add_argument(
+        '-c',
+        '--commit',
+        default=False,
+        action='store_true',
+    )
+    args = parser.parse_args()
+
+    main(args)

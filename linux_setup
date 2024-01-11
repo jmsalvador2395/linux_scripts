@@ -11,7 +11,8 @@ function pull_git_repos() {
 		mkdir -p ~/repos/$i
 		cd ~/repos/$i
 		git init
-		git pull git@github.com:jmsalvador2395/${i}.git
+		git remote add ${i} git@github.com:jmsalvador2395/${i}.git
+		git pull ${i} master
 		echo "finished pulling git repository"
 		cd ..
 	done

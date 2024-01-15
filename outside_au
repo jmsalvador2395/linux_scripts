@@ -14,11 +14,19 @@ function main(){
     this_host=$(hostname)
     result=0
 
-    for host in "${inside_hosts}"; do
+    for host in "${inside_hosts[@]}"; do
         if [ "${host}" == "${this_host}" ]; then
             result=1
         fi
     done
+
+    if [ "$1" == "-d" ]; then
+        if [ $result == 1 ]; then
+            echo "this computer is inside auburn"
+        else
+            echo "this computer is outside auburn"
+        fi
+    fi
 
     return ${result}
 }

@@ -5,13 +5,13 @@ function main() {
     if [ "$1" == "" ]; then
         folders=($(ls -A ${base_dir}))
         for folder in "${folders[@]}"; do
-            umount ${base_dir}/${folder} > /dev/null
+            umount ${base_dir}/${folder} &> /dev/null
             rmdir ${base_dir}/${folder}
         done
         echo
         echo "unmounted folders: ${folders[@]}"
     else
-        umount ${base_dir}/${1} /dev/null
+        umount ${base_dir}/${1} &> /dev/null
         rmdir ${base_dir}/${1}
         echo
         echo "unmounted ${1}"

@@ -1,0 +1,26 @@
+#!/bin/bash
+
+function main(){
+    inside_hosts=(
+        "nlp"
+        "bdi"
+        "aiau001"
+        "aiau010"
+        "cse-gpu1"
+        "cse-gpu2"
+    )
+
+    # 0 means true
+    this_host=$(hostname)
+    result=0
+
+    for host in "${inside_hosts}"; do
+        if [ "${host}" == "${this_host}" ]; then
+            result=1
+        fi
+    done
+
+    return ${result}
+}
+
+main $@

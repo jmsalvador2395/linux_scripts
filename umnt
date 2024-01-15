@@ -1,16 +1,21 @@
 #!/bin/bash
 
 function main() {
-	if [ "$1" == "" ]; then
-		umount ${HOME}/mnt/.h
-		umount ${HOME}/mnt/media
-	elif [ "$1" == "bdi" ]; then
-		umount ${HOME}/mnt/bdi
-	elif [ "$1" == "nlp" ]; then
-		umount ${HOME}/mnt/nlp
-	elif [ "$1" == "gpu2" ]; then
-		umount ${HOME}/mnt/gpu2
-	fi
+    base_dir=${HOME}/mnt
+    if [ "$1" == "" ]; then
+        folders=($(ls -A ${base_dir}))
+        for folder in "${folders[@]}"; do
+            umount ${base_dir}/${folder} > /dev/null
+            rmdir ${base_dir}/${folder}
+        done
+        echo
+        echo "unmounted folders: ${folders[@]}"
+    else
+        umount ${base_dir}/${1} /dev/null
+        rmdir ${base_dir}/${1}
+        echo
+        echo "unmounted ${1}"
+    fi
 }
 
 main $1

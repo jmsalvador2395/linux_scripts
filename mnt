@@ -3,15 +3,27 @@
 # use the following if you get a mounting error
 # fusermount -u $mountpoint
 function main(){
+
+    base_dir=${HOME}/mnt
+
 	# mount nas drives
 	if [ "$1" == "" ]; then
-		sshfs -o uid=1000,default_permissions,IdentityFile=${HOME}/.ssh/id_ecdsa truenas:/mnt/pool1/h/ ${HOME}/mnt/.h
-		sshfs -o uid=1000,default_permissions,IdentityFile=${HOME}/.ssh/id_ecdsa synology:media/ ${HOME}/mnt/media
-	# mount bdi and nlp servers
+        # create directories if they don't exist
+        mkdir -p ${base_dir}/.h
+        mkdir -p ${base_dir}/media
+
+        # mount
+		sshfs truenas:/mnt/pool1/h/ ${base_dir}/.h
+		sshfs synology:media/ ${base_dir}/media
+	# mount external servers
 	elif [ "$1" == "bdi" ] || [ "$1" == "nlp" ]; then
-		sshfs -o uid=1000,default_permissions,IdentityFile=${HOME}/.ssh/id_ecdsa2 ${1}:/data/john/ ${HOME}/mnt/${1}
-    elif [ "$1" == "gpu2" ]; then
-		sshfs -o uid=1000,default_permissions,IdentityFile=${HOME}/.ssh/id_ecdsa2 ${1}: ${HOME}/mnt/${1}
+        trgt=${base_dir}/${1}
+        mkdir -p ${trgt}
+		sshfs ${1}:/data/john/ ${trgt}
+    elif [ "$1" == "gpu1" ] || [ "$1" == "gpu2" ]; then
+        trgt=${base_dir}/${1}
+        mkdir -p ${trgt}
+		sshfs ${1}: ${trgt}
 	else
 		echo "invalid host"
 	fi

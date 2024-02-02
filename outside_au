@@ -1,49 +1,19 @@
 #!/bin/bash
 
 function main(){
-    inside_hosts=(
-        "nlp"
-        "bdi"
-        "aiau001"
-        "aiau010"
-        "cse-gpu1"
-        "cse-gpu2"
-    )
+    nc bdi.cse.eng.auburn.edu 22 -w 1 &> /dev/null
+    result=$?
 
-    # 0 means true
-    this_host=$(hostname)
-    result=0
-
-    for host in "${inside_hosts[@]}"; do
-        if [ "${host}" == "${this_host}" ]; then
-            result=1
-        fi
-    done
-
-    if [ "$1" == "-d" ]; then
+    if [ "$1" == "-v" ]; then
         if [ $result == 1 ]; then
-            echo "this computer is inside auburn"
-        else
-            echo "this computer is outside auburn"
-        fi
-    fi
-
-    return ${result}
-}
-
-function alt_main(){
-    nc bdi.cse.eng.auburn.edu 22 -w 1
-
-    if [ "$1" == "-d" ]; then
-        if [ $? == 1 ]; then
             echo "this computer is outside auburn"
         else
             echo "this computer is inside auburn"
         fi
     fi
 
+    return $result
 }
 
-#main $@
-alt_main $@
+main $@
 

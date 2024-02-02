@@ -31,4 +31,19 @@ function main(){
     return ${result}
 }
 
-main $@
+function alt_main(){
+    nc bdi.cse.eng.auburn.edu 22 -w 1
+
+    if [ "$1" == "-d" ]; then
+        if [ $? == 1 ]; then
+            echo "this computer is outside auburn"
+        else
+            echo "this computer is inside auburn"
+        fi
+    fi
+
+}
+
+#main $@
+alt_main $@
+

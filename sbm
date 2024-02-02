@@ -36,4 +36,4 @@ if __name__ == '__main__':
 		with open(bm_path, 'w') as f:
 			f.write(json.dumps(bm))
 	else:
-		print('Changes not committed. Run with -c to commit.')
+		print(f'{len(bm[1])} bookmarks. Run with -c to commit.')

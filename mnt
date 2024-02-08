@@ -13,8 +13,8 @@ function main(){
         mkdir -p ${base_dir}/media
 
         # mount
-		sshfs -o reconnect truenas:/mnt/pool1/h/ ${base_dir}/.h
-		sshfs -o reconnect synology:media/ ${base_dir}/media
+		sshfs -o uid=1000,default_permissions,reconnect truenas:/mnt/pool1/h/ ${base_dir}/.h
+		sshfs -o uid=1000,default_permissions,reconnect synology:media/ ${base_dir}/media
 	# mount external servers
     elif [ "$1" == "bdi_shared" ] || [ "$1" == "nlp_shared" ]; then
         srvr=$(cut -c 1-3 <<< $1)

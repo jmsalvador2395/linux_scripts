@@ -1,0 +1,25 @@
+#!/usr/bin/env python
+import argparse
+import datasets
+import IPython
+
+def main(args):
+    datasets.disable_caching()
+    ds_path = args.data_path
+    ext = ds_path.split('.')[-1]
+    ds = datasets.load_dataset(
+        ext,
+        data_files=ds_path
+    )
+
+    IPython.embed()
+
+if __name__ == '__main__':
+    argparser = argparse.ArgumentParser()
+    argparser.add_argument(
+        'data_path',
+        help='the path of the dataset to load',
+    )
+    args = argparser.parse_args()
+
+    main(args)

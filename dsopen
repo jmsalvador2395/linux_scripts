@@ -2,6 +2,8 @@
 import argparse
 import datasets
 import IPython
+import numpy as np
+from pprint import pprint
 
 def main(args):
     datasets.disable_caching()
@@ -11,6 +13,9 @@ def main(args):
         ext,
         data_files=ds_path
     )
+
+    if list(ds.keys()) == ['train']:
+        ds = ds['train']
 
     IPython.embed()
 

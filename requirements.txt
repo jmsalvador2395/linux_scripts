@@ -1,0 +1,8 @@
+datasets
+openpyxl
+pandas
+numpy
+ipython
+jupyterlab
+nvitop
+tqdm

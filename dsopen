@@ -1,21 +1,28 @@
 #!/usr/bin/env python
 import argparse
 import datasets
+import pandas as pd
 import IPython
 import numpy as np
 from pprint import pprint
+from datasets import Dataset
 
 def main(args):
     datasets.disable_caching()
     ds_path = args.data_path
     ext = ds_path.split('.')[-1]
-    ds = datasets.load_dataset(
-        ext,
-        data_files=ds_path
-    )
+    
+    if ext == 'xlsx':
+        ds = pd.read_excel(ds_path)
+        ds = Dataset.from_pandas(ds)
+    else:
+        ds = datasets.load_dataset(
+            ext,
+            data_files=ds_path
+        )
 
-    if list(ds.keys()) == ['train']:
-        ds = ds['train']
+        if list(ds.keys()) == ['train']:
+            ds = ds['train']
 
     IPython.embed()
 

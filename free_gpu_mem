@@ -1,0 +1,12 @@
+#!/bin/bash
+
+function kpid() {
+    raw_text=($(fuser -v /dev/nvidia*))
+    for text in ${raw_text[@]}; do
+        num=$(echo ${text} | grep -o -E '[0-9]+')
+        kill -9 ${num}
+        echo "killed ${num}"
+    done
+}
+
+kpid $@

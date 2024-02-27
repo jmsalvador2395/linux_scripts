@@ -25,7 +25,7 @@ function main(){
 	elif [ "$1" == "bdi" ] || [ "$1" == "nlp" ]; then
         trgt=${base_dir}/${1}
         mkdir -p ${trgt}
-		sshfs ${1}:/data/john/ ${trgt}
+		sshfs ${1}:/data/john ${trgt}
     elif [ "$1" == "gpu1" ] || [ "$1" == "gpu2" ]; then
         trgt=${base_dir}/${1}
         mkdir -p ${trgt}

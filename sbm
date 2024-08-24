@@ -1,39 +1,78 @@
 #!/usr/bin/env python
 
 import json
+import pickle
 import os
 import argparse
 
 def parse_args():
-	parser = argparse.ArgumentParser()
-	parser.add_argument(
-		'-c',
-		'--commit',
-		default = False,
-		action = 'store_true',
-	)
-	return vars(parser.parse_args())
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '-c',
+        '--commit',
+        default = False,
+        action = 'store_true',
+    )
+    return vars(parser.parse_args())
+
+def main_old():
+
+    args = parse_args()
+
+    HOME = os.environ['HOME']
+    bm_path = f'{HOME}/.local/share/mcomix/bookmarks.json'
+
+    #read in original json
+    with open(bm_path) as f:
+        bm = json.loads(f.read())
+
+    #save backup
+    with open(bm_path + '.bak', 'w') as f:
+        f.write(json.dumps(bm))
+
+    #sort and rewite back to orignal file
+    bm[1].sort(reverse=True)
+    if args['commit']:
+        print('Changes committed')
+        with open(bm_path, 'w') as f:
+            f.write(json.dumps(bm))
+    else:
+        print(f'{len(bm[1])} bookmarks. Run with -c to commit.')
+
+def load_pkl(path):
+    with open(path, 'rb') as f:
+        ver = pickle.load(f)
+        bm = pickle.load(f)
+
+    return ver, bm
+
+def write_pkl(path, ver, bm):
+    with open(path, 'wb') as f:
+        pickle.dump(ver, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(bm, f, pickle.HIGHEST_PROTOCOL)
+
+def main_new():
+
+    args = parse_args()
+
+    HOME = os.environ['HOME']
+    bm_path = f'{HOME}/.local/share/mcomix/bookmarks.pickle'
+
+    #read in original json
+    ver, bm = load_pkl(bm_path)
+
+    #save backup
+    write_pkl(ver, bm, f'{bm_path}.bak')
+
+    #sort and rewite back to orignal file
+    bm.sort(key=lambda x: x[0].lower(), reverse=True)
+    if args['commit']:
+        print('Changes committed')
+        write_pkl(bm_path, ver, bm)
+    else:
+        print(f'{len(bm)} bookmarks. Run with -c to commit.')
+
 
 if __name__ == '__main__':
-
-	args = parse_args()
-
-	HOME = os.environ['HOME']
-	bm_path = f'{HOME}/.local/share/mcomix/bookmarks.json'
-
-	#read in original json
-	with open(bm_path) as f:
-		bm = json.loads(f.read())
-
-	#save backup
-	with open(bm_path + '.bak', 'w') as f:
-		f.write(json.dumps(bm))
-
-	#sort and rewite back to orignal file
-	bm[1].sort(reverse=True)
-	if args['commit']:
-		print('Changes committed')
-		with open(bm_path, 'w') as f:
-			f.write(json.dumps(bm))
-	else:
-		print(f'{len(bm[1])} bookmarks. Run with -c to commit.')
+    #main_old()
+    main_new()

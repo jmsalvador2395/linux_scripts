@@ -118,7 +118,7 @@ function main() {
 		cd .tmp
 
 		# external installs
-		install_brave
+		#install_brave
 		#install_conda
 		install_signal
 

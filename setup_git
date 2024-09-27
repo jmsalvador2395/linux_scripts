@@ -1,6 +1,9 @@
 #!/bin/bash
 
 function main() {
+
+    # set default branch name
+    git config --global init.defaultBranch main
 	
 	# set username
 	git config --global user.email jmsalvador2395@gmail.com

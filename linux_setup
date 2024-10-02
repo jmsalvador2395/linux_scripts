@@ -50,12 +50,10 @@ function install_conda() {
 
 function install_brave() {
 
-	#install brave browser (for mint)
-	sudo apt install apt-transport-https curl
-	sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-	echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-	sudo apt update
-	sudo apt install brave-browser -y
+    sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+    echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+    sudo apt update
+    sudo apt install brave-browser
 
 }
 
@@ -84,6 +82,66 @@ install_appimages() {
 	cp ~/bin/desktop_entries/* ~/.local/share/applications/
 }
 
+function install_pyenv() {
+
+    # install dependencies
+    sudo apt update
+    sudo apt install \
+        build-essential \
+        libssl-dev \
+        zlib1g-dev \
+        libbz2-dev \
+        libreadline-dev \
+        libsqlite3-dev \
+        curl \
+        git \
+        libncursesw5-dev \
+        xz-utils \
+        tk-dev \
+        libxml2-dev \
+        libxmlsec1-dev \
+        libffi-dev \
+        liblzma-dev
+
+    # run installer
+    curl https://pyenv.run | bash
+
+    echo \
+    "
+
+#################
+#### <PYENV> ####
+#################
+
+# Load pyenv automatically by appending
+# the following to
+# ~/.bash_profile if it exists, otherwise ~/.profile (for login shells)
+# and ~/.bashrc (for interactive shells) :
+
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+# Restart your shell for the changes to take effect.
+
+# Load pyenv-virtualenv automatically by adding
+# the following to ~/.bashrc:
+
+eval "$(pyenv virtualenv-init -)"
+
+##################
+#### </PYENV> ####
+##################
+" >> ~/.bashrc
+    
+}
+
+function install_vscode() {
+    echo "code code/add-microsoft-repo boolean true" | sudo debconf-set-selections
+    sudo apt install apt-transport-https
+    sudo apt install code
+}
+
 
 function main() {
 	cd $HOME
@@ -109,6 +167,16 @@ function main() {
 		python-is-python3 \
 		-y
 
+    install_pyenv
+
+    # make tab complete case agnostic
+    ignore_case="set completion-ignore-case On"
+    if [ ! -f ~/.inputrc ]; then
+        echo $ignore_case >> ~/.inputrc
+    elif [ "$(grep "${ignore_case}" ~/.inputrc)" == "" ]; then
+        echo $ignore_case >> ~/.inputrc
+    fi
+
 
 	# only install this stuff for desktops
 	if [ "$1" == "-a" ]; then
@@ -118,8 +186,8 @@ function main() {
 		cd .tmp
 
 		# external installs
-		#install_brave
 		#install_conda
+		install_brave
 		install_signal
 
 		cd $HOME
@@ -131,6 +199,7 @@ function main() {
 			mpv \
 			dropbox \
 			deluge \
+            code \
 			-y
 				
 		

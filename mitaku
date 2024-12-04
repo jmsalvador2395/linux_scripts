@@ -1,0 +1,23 @@
+#!/bin/bash
+
+
+function mitaku() {
+
+    lsout=$(ls | grep .rar)
+    readarray -t archives <<< "$lsout"
+
+    if [[ "$1" == "-d" ]]; then
+        echo "${#archives[@]} command(s) to run:"
+        echo
+    fi
+
+    for arc in "${archives[@]}"; do
+        if [[ "$1" == "-d" ]]; then
+            echo unrar x -p'mitaku.net' "$arc"
+        else
+            unrar x -p'mitaku.net' "$arc"
+        fi
+    done
+}
+
+mitaku $@

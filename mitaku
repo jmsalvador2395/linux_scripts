@@ -16,6 +16,7 @@ function mitaku() {
             echo unrar x -p'mitaku.net' "$arc"
         else
             unrar x -p'mitaku.net' "$arc"
+            rm "$arc"
         fi
     done
 }

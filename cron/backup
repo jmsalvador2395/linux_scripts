@@ -1,0 +1,9 @@
+#!/bin/bash
+
+function main(){
+    if [ -d "/media/john/backup" ]; then
+        rsync -av --delete --info=progress2 truenas:/mnt/pool1/h/ /media/john/backup/h/
+    fi
+}
+
+main $@

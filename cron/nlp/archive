@@ -1,0 +1,42 @@
+#!/bin/bash
+
+function handle_interrupt() {
+    echo -e "\e[0m"
+    exit 1
+}
+
+trap handle_interrupt SIGINT
+
+function main(){
+    targets=(
+        "/data/john/projects/nb/data"
+        "/data/john/projects/llm_eval/data/results/infill/"
+    )
+    names=(
+        "nb_data"
+        "infill_data"
+    )
+    cache="${HOME}/.cache/backup"
+    flist_pth="${cache}/file_list"
+    dest="/data/john/files/archive"
+    mkdir -p "${flist_pth}"
+    mkdir -p "${dest}"
+    cd ${flist_pth}
+    for ((i=0; i<${#targets[@]}; i++)); do
+        #find "${targets[i]}" > tmp.txt
+        find "${targets[i]}" -type f -exec stat --format="%y %n" {} \; > tmp.txt
+        if [ ! -f "${names[i]}.txt" ] || ! diff "${names[i]}.txt" "tmp.txt" > /dev/null; then
+            echo -e "archiving ${targets[i]}\e[34m"
+            zip -r "${dest}/${names[i]}.zip" "${targets[i]}"
+            if [ $? == 0 ]; then
+                mv tmp.txt ${names[i]}.txt
+            fi
+            echo -e "\e[0m"
+        else
+            echo "no changes detected for \"${targets[i]}\""
+            rm tmp.txt
+        fi
+    done
+}
+
+main $@

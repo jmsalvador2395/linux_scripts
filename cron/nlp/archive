@@ -23,9 +23,10 @@ function main(){
     mkdir -p "${dest}"
     cd ${flist_pth}
     for ((i=0; i<${#targets[@]}; i++)); do
-        #find "${targets[i]}" > tmp.txt
         find "${targets[i]}" -type f -exec stat --format="%y %n" {} \; > tmp.txt
-        if [ ! -f "${names[i]}.txt" ] || ! diff "${names[i]}.txt" "tmp.txt" > /dev/null; then
+        touch "${names[i]}.txt"
+        changes=$(diff "${names[i]}.txt" "tmp.txt")
+        if [ "$(diff "${names[i]}.txt" "tmp.txt")" != "" ]; then
             echo -e "archiving ${targets[i]}\e[34m"
             zip -r "${dest}/${names[i]}.zip" "${targets[i]}"
             if [ $? == 0 ]; then

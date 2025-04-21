@@ -62,7 +62,7 @@ def main_new():
     ver, bm = load_pkl(bm_path)
 
     #save backup
-    write_pkl(ver, bm, f'{bm_path}.bak')
+    write_pkl(f'{bm_path}.bak', ver, bm)
 
     #sort and rewite back to orignal file
     bm.sort(key=lambda x: x[0].lower(), reverse=True)

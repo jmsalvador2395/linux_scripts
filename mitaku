@@ -12,7 +12,9 @@ function mitaku() {
     fi
 
     for arc in "${archives[@]}"; do
-        if [[ "$1" == "-d" ]]; then
+        if [[ "$arc" == "" ]]; then
+            continue
+        elif [[ "$1" == "-d" ]]; then
             echo unrar x -p'mitaku.net' "$arc"
         else
             unrar x -p'mitaku.net' "$arc"

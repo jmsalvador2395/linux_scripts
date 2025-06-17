@@ -1,2 +1,0 @@
-obsidian filter=lfs diff=lfs merge=lfs -text
-bitwarden filter=lfs diff=lfs merge=lfs -text

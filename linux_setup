@@ -106,35 +106,11 @@ function install_pyenv() {
     # run installer
     curl https://pyenv.run | bash
 
-    echo \
-    "
-
-#################
-#### <PYENV> ####
-#################
-
-# Load pyenv automatically by appending
-# the following to
-# ~/.bash_profile if it exists, otherwise ~/.profile (for login shells)
-# and ~/.bashrc (for interactive shells) :
-
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-
-# Restart your shell for the changes to take effect.
-
-# Load pyenv-virtualenv automatically by adding
-# the following to ~/.bashrc:
-
-eval "$(pyenv virtualenv-init -)"
-
-##################
-#### </PYENV> ####
-##################
-" >> ~/.bashrc
+    # append pyenv content to bashrc
+    echo cat ~/bin/bashrc/pyenv.sh >> ~/.bashrc
     
 }
+
 
 function install_vscode() {
     echo "code code/add-microsoft-repo boolean true" | sudo debconf-set-selections
@@ -155,6 +131,9 @@ function main() {
 	sudo apt update && sudo apt upgrade -y
 	sudo apt dist-upgrade
 
+    # add bashrc lines
+    cat ~/bin/bashrc/path.sh > ~/.bashrc
+
 	# git setup
 	git config --global user.email jmsalvador2395@gmail.com
 	git config --global user.name john
@@ -166,12 +145,17 @@ function main() {
 
 	#general installs
 	sudo apt install \
+        snapd \
 		tmux \
 		sshfs \
 		htop \
 		tree \
 		python-is-python3 \
 		-y
+
+    # snap installs
+    sudo snap install snapd
+    sudo snap install obsidian --classic
 
     install_pyenv
 

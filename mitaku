@@ -17,8 +17,9 @@ function mitaku() {
         elif [[ "$1" == "-d" ]]; then
             echo unrar x -p'mitaku.net' "$arc"
         else
-            unrar x -p'mitaku.net' "$arc"
-            rm "$arc"
+            if unrar x -p'mitaku.net' "$arc"; then
+                rm "$arc"
+            fi
         fi
     done
 }

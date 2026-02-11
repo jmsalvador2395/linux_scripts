@@ -18,8 +18,8 @@ function main(){
             -o reconnect \
             -o ServerAliveInterval=15 \
             -o ServerAliveCountMax=3
-		sshfs synology:media/ ${base_dir}/media \
-            -o uid=1000,default_permissions,reconnect\
+		sshfs synology:media ${base_dir}/media \
+            -o uid=1000,default_permissions,reconnect \
             -o reconnect \
             -o ServerAliveInterval=15 \
             -o ServerAliveCountMax=3

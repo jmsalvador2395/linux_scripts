@@ -13,7 +13,7 @@ function main(){
         mkdir -p ${base_dir}/media
 
         # mount
-		sshfs truenas:/mnt/pool1/h/ ${base_dir}/.h \
+		sshfs truenas:/mnt/pool2/h/ ${base_dir}/.h \
             -o uid=1000,default_permissions,reconnect \
             -o reconnect \
             -o ServerAliveInterval=15 \

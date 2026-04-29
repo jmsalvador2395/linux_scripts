@@ -1,0 +1,1 @@
+pg_dump -h 10.123.95.202 -U john -d dev_creader | gzip | ssh truenas "cat > /mnt/pool1/backup/sql/dev_creader.sql.gz"

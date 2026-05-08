@@ -38,6 +38,8 @@ function main(){
         trgt=${base_dir}/${1}
         mkdir -p ${trgt}
 		sshfs ${1}: ${trgt}
+    elif [ "$1" == "pool1" ]; then
+        sudo zfs load-key pool1 && sudo zfs mount pool1
 	else
 		echo "invalid host"
 	fi

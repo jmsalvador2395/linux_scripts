@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Current settings
-nvidia-settings --assign CurrentMetaMode="DP-2: 2560x1440_165 +0+0 { ForceFullCompositionPipeline = On },  DP-0: 1920x1080_144 +2560+0"
+nvidia-settings --assign CurrentMetaMode="DP-2: 2560x1440_165 +0+0 { ForceFullCompositionPipeline = On },  DP-0: 1920x1080_144 +2560+360"
 nvidia-settings -a "0/DigitalVibrance[DP-2]=-300"
 
 # Old settings

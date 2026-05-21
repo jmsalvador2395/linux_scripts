@@ -13,12 +13,12 @@ function main(){
         mkdir -p ${base_dir}/media
 
         # mount
-		sshfs truenas:/mnt/pool2/h/ ${base_dir}/.h \
+		sshfs nas01.jblock.lan:/mnt/pool2/h/ ${base_dir}/.h \
             -o uid=1000,default_permissions,reconnect \
             -o reconnect \
             -o ServerAliveInterval=15 \
             -o ServerAliveCountMax=3
-		sshfs synology:media ${base_dir}/media \
+		sshfs nas02.jblock.lan:media ${base_dir}/media \
             -o uid=1000,default_permissions,reconnect \
             -o reconnect \
             -o ServerAliveInterval=15 \

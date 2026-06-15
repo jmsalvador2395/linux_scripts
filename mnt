@@ -14,12 +14,12 @@ function main(){
 
         # mount
 		sshfs nas01.jblock.lan:/mnt/pool2/h/ ${base_dir}/.h \
-            -o uid=1000,default_permissions,reconnect \
+            -o default_permissions,reconnect \
             -o reconnect \
             -o ServerAliveInterval=15 \
             -o ServerAliveCountMax=3
 		sshfs nas02.jblock.lan:media ${base_dir}/media \
-            -o uid=1000,default_permissions,reconnect \
+            -o default_permissions,reconnect \
             -o reconnect \
             -o ServerAliveInterval=15 \
             -o ServerAliveCountMax=3

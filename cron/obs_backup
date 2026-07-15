@@ -1,0 +1,1 @@
+rsync -av /media/john/hdd01/Media/obs/ nas02.jblock.lan:/volume1/media/recordings/obs
